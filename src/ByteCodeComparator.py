@@ -1,6 +1,8 @@
+import sys
+from pprint import pprint
+from difflib import Differ, SequenceMatcher
+from difflib import context_diff
 
-import hashlib
-import marshal
 
 '''
 1. Read two files
@@ -8,11 +10,14 @@ import marshal
 
 '''
 
+# Global variables to store file name and its data
+file1 = ""
+file2 = ""
+code1 = ""  # code from 1st file
+code2 = ""  # code from second file
+
 def byteCodeGenerator(file1, file2):
-    with open(file1) as f:
-        code1 = f.read()
-    with open(file2) as f:
-        code2 = f.read()
+
     codeObj1 = compile(code1, file1, 'exec')
     codeObj2 = compile(code2, file2, 'exec')
     return (codeObj1, codeObj2)
@@ -83,17 +88,48 @@ def populate_byte_code_hash():
         byte_code_compare_hash["co_varnames"] = False
 
 
-if __name__ == "__main__":
+def read_files():
+    global file1, file2, code1, code2
     # read the files
     file1 = "./inputs/" + input().strip()
     file2 = "./inputs/" + input().strip()
+    with open(file1) as f:
+        code1 = f.read()
+    with open(file2) as f:
+        code2 = f.read()
 
+
+if __name__ == "__main__":
+    read_files()
+
+    '''
+    Plain vanilla diff
+    '''
+    pprint("<----------------Printing  Differ------------------------->")
+    file_diff = Differ()
+    result = list(file_diff.compare(code1, code2))
+    pprint(result)
+    pprint("<----------------Printing Context Diff------------------------->")
+    sys.stdout.writelines(context_diff(code1, code2, file1, file2))
+
+    '''
+    Sequence matcher showing delta between tokens used in both files
+    '''
+    s = SequenceMatcher(None, file1, file2)
+    for tag, i1, i2, j1, j2 in s.get_opcodes():
+        pprint('{:7}   a[{}:{}] --> b[{}:{}] {!r:>8} --> {!r}'.format(
+            tag, i1, i2, j1, j2, file1[i1:i2], file2[j1:j2]))
+    '''
+    Byte code compare
+    '''
     byte_code_compare_hash = {}
 
     (codeObj1, codeObj2) = byteCodeGenerator(file1, file2)
     populate_byte_code_hash()
 
-    print(byte_code_compare_hash)
+    pprint("<----------------Printing  Byte Code "
+           "Comparision------------------------->")
+    pprint(byte_code_compare_hash)
 
 
 
