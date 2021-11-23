@@ -18,34 +18,83 @@ def byteCodeGenerator(file1, file2):
     return (codeObj1, codeObj2)
 
 
+def populate_byte_code_hash():
+    # compare the byte code - field by field
+    if codeObj1.co_argcount == codeObj2.co_argcount:
+        byte_code_compare_hash["arg_count"] = True
+    else:
+        byte_code_compare_hash["arg_count"] = False
+    if codeObj1.co_cellvars == codeObj2.co_cellvars:
+        byte_code_compare_hash["co_cellvars"] = True
+    else:
+        byte_code_compare_hash["co_cellvars"] = False
+    if codeObj1.co_consts == codeObj2.co_consts:
+        byte_code_compare_hash["co_consts"] = True
+    else:
+        byte_code_compare_hash["co_consts"] = False
+    if codeObj1.co_code == codeObj2.co_code:
+        byte_code_compare_hash["co_code"] = True
+    else:
+        byte_code_compare_hash["co_code"] = False
+    if codeObj1.co_filename == codeObj2.co_filename:
+        byte_code_compare_hash["co_filename"] = True
+    else:
+        byte_code_compare_hash["co_filename"] = False
+    if codeObj1.co_firstlineno == codeObj2.co_firstlineno:
+        byte_code_compare_hash["co_firstlineno"] = True
+    else:
+        byte_code_compare_hash["co_firstlineno"] = False
+    if codeObj1.co_flags == codeObj2.co_flags:
+        byte_code_compare_hash["co_flags"] = True
+    else:
+        byte_code_compare_hash["co_flags"] = False
+    if codeObj1.co_freevars == codeObj2.co_freevars:
+        byte_code_compare_hash["co_freevars"] = True
+    else:
+        byte_code_compare_hash["co_freevars"] = False
+    if codeObj1.co_kwonlyargcount == codeObj2.co_kwonlyargcount:
+        byte_code_compare_hash["co_freevars"] = True
+    else:
+        byte_code_compare_hash["co_freevars"] = False
+
+    if codeObj1.co_lnotab == codeObj2.co_lnotab:
+        byte_code_compare_hash["co_lnotab"] = True
+    else:
+        byte_code_compare_hash["co_lnotab"] = False
+    if codeObj1.co_name == codeObj2.co_name:
+        byte_code_compare_hash["co_name"] = True
+    else:
+        byte_code_compare_hash["co_name"] = False
+    if codeObj1.co_names == codeObj2.co_names:
+        byte_code_compare_hash["co_names"] = True
+    else:
+        byte_code_compare_hash["co_names"] = False
+    if codeObj1.co_nlocals == codeObj2.co_nlocals:
+        byte_code_compare_hash["co_nlocals"] = True
+    else:
+        byte_code_compare_hash["co_nlocals"] = False
+    if codeObj1.co_posonlyargcount == codeObj2.co_stacksize:
+        byte_code_compare_hash["co_posonlyargcount"] = True
+    else:
+        byte_code_compare_hash["co_posonlyargcount"] = False
+    if codeObj1.co_varnames == codeObj2.co_varnames:
+        byte_code_compare_hash["co_varnames"] = True
+    else:
+        byte_code_compare_hash["co_varnames"] = False
+
 
 if __name__ == "__main__":
     # read the files
     file1 = "./inputs/" + input().strip()
     file2 = "./inputs/" + input().strip()
 
+    byte_code_compare_hash = {}
+
     (codeObj1, codeObj2) = byteCodeGenerator(file1, file2)
+    populate_byte_code_hash()
 
-    '''
-    'co_argcount',
- 'co_cellvars',
- 'co_code',
- 'co_consts',
- 'co_filename',
- 'co_firstlineno',
- 'co_flags',
- 'co_freevars',
- 'co_kwonlyargcount',
- 'co_lines',
- 'co_linetable',
- 'co_lnotab',
- 'co_name',
- 'co_names',
- 'co_nlocals',
- 'co_posonlyargcount',
- 'co_stacksize',
- 'co_varnames',
+    print(byte_code_compare_hash)
 
-    '''
+
 
 
