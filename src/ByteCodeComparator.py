@@ -16,30 +16,36 @@ def byteCodeGenerator(file1, file2):
     codeObj1 = compile(code1, file1, 'exec')
     codeObj2 = compile(code2, file2, 'exec')
     return (codeObj1, codeObj2)
-'''
-Calculate and  return the hash for a code object
-'''
-def calcHash(codeObj):
-    code_bytes = marshal.dumps(codeObj)
-    return hashlib.sha1(code_bytes).hexdigest()
 
-'''
-Compare hash results of the two bytecodes 
-'''
-def compareHashCode(codeHash1, codeHash2):
-    print ("Input hash codes are :")
-    print (codeHash1)
-    print(codeHash2)
-    if codeHash1 == codeHash2:
-        return True
-    return False
 
 
 if __name__ == "__main__":
     # read the files
-    file1 = input()
-    file2 = input()
+    file1 = "./inputs/" + input().strip()
+    file2 = "./inputs/" + input().strip()
+
     (codeObj1, codeObj2) = byteCodeGenerator(file1, file2)
-    print(compareHashCode(calcHash(codeObj1), calcHash(codeObj2)))
+
+    '''
+    'co_argcount',
+ 'co_cellvars',
+ 'co_code',
+ 'co_consts',
+ 'co_filename',
+ 'co_firstlineno',
+ 'co_flags',
+ 'co_freevars',
+ 'co_kwonlyargcount',
+ 'co_lines',
+ 'co_linetable',
+ 'co_lnotab',
+ 'co_name',
+ 'co_names',
+ 'co_nlocals',
+ 'co_posonlyargcount',
+ 'co_stacksize',
+ 'co_varnames',
+
+    '''
 
 
